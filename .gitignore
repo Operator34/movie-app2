@@ -3,7 +3,9 @@
 # dependencies
 /node_modules
 /.pnp
+/src/services/API_KEY.js
 .pnp.js
+
 
 # testing
 /coverage
