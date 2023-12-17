@@ -1,27 +1,38 @@
 import React from 'react';
-import { Row, Col, Image, Spin, ConfigProvider } from 'antd';
+import { Row, Col, Image, Spin, ConfigProvider, Alert } from 'antd';
 import { format } from 'date-fns';
 
 import './movie-card.css';
 import RequestService from '../../services/request-service';
 
 class MovieCard extends React.Component {
-  allFilmsReturn = new RequestService();
+  requestService = new RequestService();
 
   state = {
     movies: [],
     loading: true,
-    error: false,
+    error: { status: false, message: '' },
   };
-
+  onError = (err) => {
+    console.log(err.message);
+    this.setState({
+      error: {
+        status: true,
+        message: err.message,
+      },
+    });
+  };
   componentDidMount() {
     this.updateCard();
   }
 
   updateCard() {
-    this.allFilmsReturn.getResource().then((res) => {
-      this.setState({ movies: res.results, loading: false });
-    });
+    this.requestService
+      .getResource()
+      .then((res) => {
+        this.setState({ movies: res.results, loading: false });
+      })
+      .catch(this.onError);
   }
   conversionStr(str, maxLength) {
     if (str.length > maxLength) {
@@ -32,14 +43,23 @@ class MovieCard extends React.Component {
     } else return str;
   }
   render() {
-    const { movies, loading } = this.state;
+    const {
+      movies,
+      loading,
+      error: { status, message },
+    } = this.state;
+
+    const errorMessage = status ? <ErrorAlert errorMessage={message} /> : null;
     const basePosterUrl = 'https://image.tmdb.org/t/p/original';
     const defaultPoster =
       'https://sun9-27.userapi.com/impf/wnP-oC-n-D0GsW0QzCbXkdNTF60EokgNqotM9w/ufq3R83KzCg.jpg?size=230x330&quality=96&sign=fa5ed75994dc63d8905d54ee80e4d038&type=album';
+
     return (
       <>
+        {errorMessage}
         <Row justify="space-evenly">
-          <Spinner loading={loading} />
+          <Spinner loading={loading} err={status} />
+
           {movies.map((movie) => (
             <Col className="card" key={movie.id} span={11}>
               <Image
@@ -69,7 +89,7 @@ class MovieCard extends React.Component {
 
 export default MovieCard;
 
-const Spinner = ({ loading }) => (
+const Spinner = ({ loading, err }) => (
   <ConfigProvider
     theme={{
       token: {
@@ -83,6 +103,18 @@ const Spinner = ({ loading }) => (
       },
     }}
   >
-    <Spin size="large" spinning={loading} fullscreen={true} />
+    <Spin size="large" spinning={err ? !err : loading} fullscreen={true} />
   </ConfigProvider>
 );
+
+const ErrorAlert = ({ errorMessage }) => {
+  return (
+    <Alert
+      message={`Error: ${errorMessage}`}
+      description="Произошла какая-то ошибка, мы уже разбираемся"
+      type="error"
+      showIcon
+      closable
+    />
+  );
+};
