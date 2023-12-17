@@ -11,8 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
-html{
-  background-color: gray;
+html {
 }
 * {
   margin: 0;
@@ -21,7 +20,13 @@ html{
 }
 
 /* Additional Reset */
-body, h1, h2, h3, ul, ol, li {
+body,
+h1,
+h2,
+h3,
+ul,
+ol,
+li {
   margin: 0;
   padding: 0;
 }

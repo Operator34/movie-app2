@@ -1,0 +1,10 @@
+.errorNetwork {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: crimson;
+}
+.errorNetwork p {
+  color: #545252;
+  margin-top: 2rem;
+}

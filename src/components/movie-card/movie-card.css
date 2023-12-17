@@ -1,56 +1,51 @@
-.card{
-    width: 451px;
-    height: 279px;
-    display: flex;
-    background-color: #fff;
+.card {
+  width: 451px;
+  height: 279px;
+  display: flex;
+  background-color: #fff;
 
-    margin-bottom: 1rem;
-    box-shadow: 0px 4px 12px 0px #00000026;
-
+  margin-bottom: 1rem;
+  box-shadow: 0px 4px 12px 0px #00000026;
 }
 
-.card .coverMovie{
-    width: 183px;
-    height: 277px;
+.card .coverMovie {
+  width: 183px;
+  height: 277px;
 }
 
-.card .aboutTheFilm{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    text-align: start;
-    margin: 10px 20px;
-
+.card .aboutTheFilm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: start;
+  margin: 10px 20px;
 }
 
-.card .aboutTheFilm .titleName{
-    font-size: 20px;
-    line-height: 22px;
-    color: #000;
+.card .aboutTheFilm .titleName {
+  font-size: 20px;
+  line-height: 22px;
+  color: #000;
 }
 
-.card .aboutTheFilm .releaseDate{
-    font-size: 12px;
-    line-height: 22px;
-    color: #827E7E;
+.card .aboutTheFilm .releaseDate {
+  font-size: 12px;
+  line-height: 22px;
+  color: #827e7e;
 }
 .card .aboutTheFilm .genreFilm {
-    display: flex;
-
+  display: flex;
 }
-.card .aboutTheFilm .genreFilm .nameGenre{
-
-width: 46px;
-border-radius: 2px;
-border: 1px solid #d9d9d9;
-color: #000;
-text-align: center;
-margin-right: 0.5rem;
-
+.card .aboutTheFilm .genreFilm .nameGenre {
+  width: 46px;
+  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+  color: #000;
+  text-align: center;
+  margin-right: 0.5rem;
 }
 
-.card .aboutTheFilm .descriptionFilm{
-    font-size: 12px;
-    line-height: 22px;
-    color: #000;
+.card .aboutTheFilm .descriptionFilm {
+  font-size: 12px;
+  line-height: 22px;
+  color: #000;
 }

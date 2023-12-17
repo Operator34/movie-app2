@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Image } from 'antd';
+import { Row, Col, Image, Spin, ConfigProvider } from 'antd';
 import { format } from 'date-fns';
 
 import './movie-card.css';
@@ -10,6 +10,8 @@ class MovieCard extends React.Component {
 
   state = {
     movies: [],
+    loading: true,
+    error: false,
   };
 
   componentDidMount() {
@@ -18,7 +20,7 @@ class MovieCard extends React.Component {
 
   updateCard() {
     this.allFilmsReturn.getResource().then((res) => {
-      this.setState({ movies: res.results });
+      this.setState({ movies: res.results, loading: false });
     });
   }
   conversionStr(str, maxLength) {
@@ -30,23 +32,19 @@ class MovieCard extends React.Component {
     } else return str;
   }
   render() {
-    const { movies } = this.state;
+    const { movies, loading } = this.state;
     const basePosterUrl = 'https://image.tmdb.org/t/p/original';
-    const defaultPOster =
+    const defaultPoster =
       'https://sun9-27.userapi.com/impf/wnP-oC-n-D0GsW0QzCbXkdNTF60EokgNqotM9w/ufq3R83KzCg.jpg?size=230x330&quality=96&sign=fa5ed75994dc63d8905d54ee80e4d038&type=album';
-    const dateToFormat = new Date('1985-10-31');
-    const formattedDate = format(dateToFormat, 'MMMM d, yyyy');
-
-    console.log('формат даты', formattedDate);
     return (
       <>
         <Row justify="space-evenly">
-          {console.log(movies)}
+          <Spinner loading={loading} />
           {movies.map((movie) => (
             <Col className="card" key={movie.id} span={11}>
               <Image
                 className="coverMovie"
-                src={movie.poster_path ? `${basePosterUrl}${movie.poster_path}` : defaultPOster}
+                src={movie.poster_path ? `${basePosterUrl}${movie.poster_path}` : defaultPoster}
               />
               <div className="aboutTheFilm">
                 <h1 className="titleName">{movie.title}</h1>
@@ -70,3 +68,21 @@ class MovieCard extends React.Component {
 }
 
 export default MovieCard;
+
+const Spinner = ({ loading }) => (
+  <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: 'blue',
+      },
+      components: {
+        Spin: {
+          dotSize: 100,
+          dotSizeLG: 150,
+        },
+      },
+    }}
+  >
+    <Spin size="large" spinning={loading} fullscreen={true} />
+  </ConfigProvider>
+);

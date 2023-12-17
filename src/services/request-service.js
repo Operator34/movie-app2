@@ -15,7 +15,6 @@ class RequestService extends React.Component {
   async getResource() {
     const res = await fetch(`${this._apiBase}?query=return&include_adult=false&language=en-US&page=1`, this.options);
     const body = await res.json();
-    console.log(body);
     return body;
   }
 }
