@@ -1,8 +1,8 @@
+import './movie-card.css';
 import React from 'react';
 import { Row, Col, Image, Spin, ConfigProvider, Alert } from 'antd';
 import { format } from 'date-fns';
 
-import './movie-card.css';
 import RequestService from '../../services/request-service';
 
 class MovieCard extends React.Component {
@@ -25,11 +25,19 @@ class MovieCard extends React.Component {
   componentDidMount() {
     this.updateCard();
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.searchInput !== prevProps.searchInput || this.props.currentPage !== prevProps.currentPage) {
+      this.updateCard();
+    }
+  }
 
   updateCard() {
+    const { searchInput, currentPage } = this.props;
+    const data = searchInput ? searchInput : 'Return';
     this.requestService
-      .getResource()
+      .getMovie(data, currentPage)
       .then((res) => {
+        console.log('result', res);
         this.setState({ movies: res.results, loading: false });
       })
       .catch(this.onError);
@@ -49,7 +57,21 @@ class MovieCard extends React.Component {
       error: { status, message },
     } = this.state;
 
-    const errorMessage = status ? <ErrorAlert errorMessage={message} /> : null;
+    const errorMessage = status ? (
+      <MessageAlert
+        errorMessage={message}
+        description={'Произошла ошибка, уже работаем над испралением'}
+        type={'error'}
+      />
+    ) : null;
+    const infoMessage =
+      movies.length < 1 ? (
+        <MessageAlert
+          errorMessage={'Ничего не найдено'}
+          description={'Попробуйте ввести другой запрос'}
+          type={'info'}
+        />
+      ) : null;
     const basePosterUrl = 'https://image.tmdb.org/t/p/original';
     const defaultPoster =
       'https://sun9-27.userapi.com/impf/wnP-oC-n-D0GsW0QzCbXkdNTF60EokgNqotM9w/ufq3R83KzCg.jpg?size=230x330&quality=96&sign=fa5ed75994dc63d8905d54ee80e4d038&type=album';
@@ -57,6 +79,7 @@ class MovieCard extends React.Component {
     return (
       <>
         {errorMessage}
+        {infoMessage}
         <Row justify="space-evenly">
           <Spinner loading={loading} err={status} />
 
@@ -107,14 +130,6 @@ const Spinner = ({ loading, err }) => (
   </ConfigProvider>
 );
 
-const ErrorAlert = ({ errorMessage }) => {
-  return (
-    <Alert
-      message={`Error: ${errorMessage}`}
-      description="Произошла какая-то ошибка, мы уже разбираемся"
-      type="error"
-      showIcon
-      closable
-    />
-  );
+const MessageAlert = ({ errorMessage, description, type }) => {
+  return <Alert message={errorMessage} description={description} type={type} showIcon closable />;
 };

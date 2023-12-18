@@ -17,5 +17,14 @@ class RequestService extends React.Component {
     const body = await res.json();
     return body;
   }
+
+  async getMovie(nameFilm, page = 1) {
+    const res = await fetch(
+      `${this._apiBase}?query=${nameFilm}&include_adult=false&language=en-US&page=${page}`,
+      this.options
+    );
+    const body = await res.json();
+    return body;
+  }
 }
 export default RequestService;
