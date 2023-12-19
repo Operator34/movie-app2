@@ -1,7 +1,7 @@
 .mainStyle {
-    text-align: center;
-    min-height: 120;
+  text-align: center;
+  min-height: 100vh;
+  min-width: 1010px;
 
-    background-color: #fff;
-     
-  };
+  background-color: #fff;
+}

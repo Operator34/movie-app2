@@ -5,31 +5,28 @@ import { Layout, Input } from 'antd';
 const { Search } = Input;
 const { Header } = Layout;
 
-class HeaderApp extends React.Component {
-  onChange = debounce((e) => {
-    const { getNameFilm } = this.props;
-    getNameFilm(e.target.value);
+const HeaderApp = ({ getNameFilm, page }) => {
+  const onChange = debounce((e) => {
+    getNameFilm(e.target.value, page);
   }, 1000);
 
-  onSearch = (value) => {
-    const { getNameFilm } = this.props;
-    getNameFilm(value);
+  const onSearch = (value) => {
+    console.log(page);
+    getNameFilm(value, page);
   };
 
-  render() {
-    return (
-      <Header className="headerStyle">
-        <Search
-          className="searchAnt"
-          placeholder="Введите название фильма"
-          allowClear
-          onSearch={this.onSearch}
-          size="large"
-          onChange={this.onChange}
-        />
-      </Header>
-    );
-  }
-}
+  return (
+    <Header className="headerStyle">
+      <Search
+        className="searchAnt"
+        placeholder="Введите название фильма"
+        allowClear
+        onSearch={onSearch}
+        size="large"
+        onChange={onChange}
+      />
+    </Header>
+  );
+};
 
 export default HeaderApp;

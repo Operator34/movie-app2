@@ -13,7 +13,7 @@ class Main extends React.Component {
     this.getNameFilm = this.getNameFilm.bind(this);
   }
 
-  state = { searchInput: '', currentPage: 1 };
+  state = { searchInput: 'Return', currentPage: 1 };
 
   getNameFilm(nameFilm, page) {
     console.log(nameFilm, page);
@@ -24,7 +24,7 @@ class Main extends React.Component {
     const { searchInput, currentPage } = this.state;
     return (
       <Content className="mainStyle">
-        <HeaderApp getNameFilm={this.getNameFilm} />
+        <HeaderApp getNameFilm={this.getNameFilm} page={currentPage} />
         <CardsLists searchInput={searchInput} currentPage={currentPage} getNameFilm={this.getNameFilm} />
       </Content>
     );
