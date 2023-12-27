@@ -1,31 +1,16 @@
-import './header-app.css';
 import React from 'react';
-import { debounce } from 'lodash';
-import { Layout, Input } from 'antd';
-const { Search } = Input;
-const { Header } = Layout;
+import './header-app.css';
 
-const HeaderApp = ({ getNameFilm, page }) => {
-  const onChange = debounce((e) => {
-    getNameFilm(e.target.value, page);
-  }, 1000);
-
-  const onSearch = (value) => {
-    console.log(page);
-    getNameFilm(value, page);
-  };
-
+const HeaderApp = ({ onIsRatingPage, isRatingPage }) => {
   return (
-    <Header className="headerStyle">
-      <Search
-        className="searchAnt"
-        placeholder="Введите название фильма"
-        allowClear
-        onSearch={onSearch}
-        size="large"
-        onChange={onChange}
-      />
-    </Header>
+    <div className="headerApp">
+      <button onClick={() => onIsRatingPage(false)} className={`button ${!isRatingPage ? 'btn-active' : ''}`}>
+        Search
+      </button>
+      <button onClick={() => onIsRatingPage(true)} className={`button ${isRatingPage ? 'btn-active' : ''}`}>
+        Rated
+      </button>
+    </div>
   );
 };
 

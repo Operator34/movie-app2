@@ -16,9 +16,19 @@ class MovieCard extends React.Component {
     const basePosterUrl = 'https://image.tmdb.org/t/p/original';
     const defaultPoster =
       'https://sun9-27.userapi.com/impf/wnP-oC-n-D0GsW0QzCbXkdNTF60EokgNqotM9w/ufq3R83KzCg.jpg?size=230x330&quality=96&sign=fa5ed75994dc63d8905d54ee80e4d038&type=album';
-    const { movie } = this.props;
+    const { movie, genre } = this.props;
     const { id, poster_path, title, release_date, overview } = movie;
-
+    console.log(genre);
+    let elementsGenre = null;
+    if (genre.length > 0) {
+      elementsGenre = genre.map((el, index) => {
+        return (
+          <p key={index} className="nameGenre">
+            {el}
+          </p>
+        );
+      });
+    }
     return (
       <>
         <Col className="card" key={id} span={11}>
@@ -27,11 +37,12 @@ class MovieCard extends React.Component {
             <h1 className="titleName">{title}</h1>
             <time className="releaseDate">{release_date ? format(new Date(release_date), 'MMMM d, yyyy') : ''}</time>
             <div className="genreFilm">
-              <p className="nameGenre">Action</p>
-              <p className="nameGenre">Drama</p>
+              {elementsGenre}
+              {/* <p className="nameGenre">Action</p>
+              <p className="nameGenre">Drama</p> */}
             </div>
             <div className="descriptionFilm">
-              <p>{this.conversionStr(overview, 250)}</p>
+              <p>{this.conversionStr(overview, 260)}</p>
             </div>
           </div>
         </Col>

@@ -4,6 +4,7 @@ import { Row, Pagination, Alert, ConfigProvider, Spin } from 'antd';
 import './cards-lists.css';
 import MovieCard from '../movie-card';
 import RequestService from '../../services/request-service';
+import { GenreConsumerProvider } from '../app/App';
 class CardsLists extends React.Component {
   requestService = new RequestService();
 
@@ -35,7 +36,12 @@ class CardsLists extends React.Component {
       this.updateCard();
     }
   }
-
+  getGenreMovie = (genres, genreIds) => {
+    const newArr = genres
+      .filter((genre) => genreIds.includes(genre.id)) // Фильтрация жанров по их идентификаторам
+      .map((genre) => genre.name);
+    return newArr;
+  };
   updateCard() {
     const { searchInput, currentPage } = this.props;
 
@@ -73,23 +79,36 @@ class CardsLists extends React.Component {
       <MessageAlert errorMessage={'Ничего не найдено'} description={'Попробуйте ввести другой запрос'} type={'info'} />
     ) : null;
     return (
-      <div className="cardsLists">
-        {errorMessage}
-        {infoMessage}
-        <Row justify="space-evenly" gutter={[0, 16]}>
-          <Spinner loading={loading} err={status} />
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} searchInput={searchInput} currentPage={currentPage} />
-          ))}
-        </Row>
-        <Pagination
-          className="pagination"
-          pageSize={20}
-          showSizeChanger={false}
-          total={numbersOfMovies}
-          onChange={this.onChangePagination}
-        />
-      </div>
+      <GenreConsumerProvider>
+        {(genres) => {
+          console.log(genres);
+          return (
+            <div className="cardsLists">
+              {errorMessage}
+              {infoMessage}
+              <Row justify="space-evenly" gutter={[0, 16]}>
+                <Spinner loading={loading} err={status} />
+                {movies.map((movie) => (
+                  <MovieCard
+                    genre={this.getGenreMovie(genres, movie.genre_ids)}
+                    key={movie.id}
+                    movie={movie}
+                    searchInput={searchInput}
+                    currentPage={currentPage}
+                  />
+                ))}
+              </Row>
+              <Pagination
+                className="pagination"
+                pageSize={20}
+                showSizeChanger={false}
+                total={numbersOfMovies}
+                onChange={this.onChangePagination}
+              />
+            </div>
+          );
+        }}
+      </GenreConsumerProvider>
     );
   }
 }
