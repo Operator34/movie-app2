@@ -1,9 +1,11 @@
 import './movie-card.css';
 import React from 'react';
-import { Col, Image } from 'antd';
+import { Col, Image, Rate } from 'antd';
 import { format } from 'date-fns';
 
 class MovieCard extends React.Component {
+  state = { rate: 0 };
+  onChangeRate = (value) => this.setState({ rate: value });
   conversionStr(str, maxLength) {
     if (str.length > maxLength) {
       let newStr = str.slice(0, maxLength).trim();
@@ -18,7 +20,11 @@ class MovieCard extends React.Component {
       'https://sun9-27.userapi.com/impf/wnP-oC-n-D0GsW0QzCbXkdNTF60EokgNqotM9w/ufq3R83KzCg.jpg?size=230x330&quality=96&sign=fa5ed75994dc63d8905d54ee80e4d038&type=album';
     const { movie, genre } = this.props;
     const { id, poster_path, title, release_date, overview } = movie;
-    console.log(genre);
+    const { rate } = this.state;
+    const colorRate = {
+      borderColor:
+        rate < 3 ? '#E90000' : rate >= 3 && rate < 5 ? '#E97E00' : rate >= 5 && rate < 7 ? '#E9D100' : '#66E900',
+    };
     let elementsGenre = null;
     if (genre.length > 0) {
       elementsGenre = genre.map((el, index) => {
@@ -36,14 +42,14 @@ class MovieCard extends React.Component {
           <div className="aboutTheFilm">
             <h1 className="titleName">{title}</h1>
             <time className="releaseDate">{release_date ? format(new Date(release_date), 'MMMM d, yyyy') : ''}</time>
-            <div className="genreFilm">
-              {elementsGenre}
-              {/* <p className="nameGenre">Action</p>
-              <p className="nameGenre">Drama</p> */}
+            <div className="rating-value" style={colorRate}>
+              {rate}
             </div>
+            <div className="genreFilm">{elementsGenre}</div>
             <div className="descriptionFilm">
               <p>{this.conversionStr(overview, 260)}</p>
             </div>
+            <Rate className="rate" allowHalf count={10} value={rate} onChange={(value) => this.onChangeRate(value)} />
           </div>
         </Col>
       </>
