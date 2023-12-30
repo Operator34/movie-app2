@@ -1,8 +1,9 @@
 .card {
-  /* width: 451px;
-  height: 279px; */
-  width: 495px;
-  min-width: 500px;
+  min-width: 495px;
+  max-width: 500px;
+  height: 279px;
+  /* width: 495px;
+  min-width: 500px; */
   display: flex;
   background-color: #fff;
 
