@@ -1,6 +1,7 @@
 .headerApp {
   display: flex;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 .headerApp .button {
   width: 80px;

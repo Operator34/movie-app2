@@ -3,9 +3,27 @@ import React from 'react';
 import { Col, Image, Rate } from 'antd';
 import { format } from 'date-fns';
 
+import RequestService from '../../services/request-service';
+
 class MovieCard extends React.Component {
+  requestService = new RequestService();
+
   state = { rate: 0 };
-  onChangeRate = (value) => this.setState({ rate: value });
+
+  componentDidMount() {
+    const movieRate = this.props.movie.rating;
+    this.setState({ rate: movieRate ? movieRate : 0 });
+  }
+
+  onChangeRate = (value) => {
+    const { guestSessionId, movie } = this.props;
+    console.log(guestSessionId);
+    this.setState({ rate: value });
+    this.requestService.addRateGuestSession(movie.id, guestSessionId, value).then((res) => {
+      console.log(res);
+    });
+  };
+
   conversionStr(str, maxLength) {
     if (str.length > maxLength) {
       let newStr = str.slice(0, maxLength).trim();
@@ -38,7 +56,14 @@ class MovieCard extends React.Component {
     return (
       <>
         <Col className="card" key={id} span={11}>
-          <Image className="coverMovie" src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster} />
+          <Image
+            className="coverMovie"
+            src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = defaultPoster;
+            }}
+          />
           <div className="aboutTheFilm">
             <h1 className="titleName">{title}</h1>
             <time className="releaseDate">{release_date ? format(new Date(release_date), 'MMMM d, yyyy') : ''}</time>

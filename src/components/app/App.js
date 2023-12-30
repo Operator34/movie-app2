@@ -12,20 +12,31 @@ const { Provider: GenreContextProvider, Consumer: GenreConsumerProvider } = Reac
 export { GenreContextProvider, GenreConsumerProvider };
 class App extends React.Component {
   requestService = new RequestService();
-  state = { genres: [] };
+  state = { genres: [], guestSessionId: '' };
+
+  // get = (e) => {
+  //   console.log('Кнопка');
+  //   e.preventDefault();
+  //   this.requestService.getRateMovie(this.state.guestSessionId, 1);
+  // };
 
   componentDidMount() {
     console.log('componentDidMount APP');
     this.requestService.getAllGenre().then((res) => this.setState({ genres: res.genres }));
+
+    this.requestService.createGuestSession().then((res) => {
+      this.setState({ guestSessionId: res.guest_session_id });
+    });
   }
   render() {
     return (
       <>
         <Online>
           <Layout>
-            <GenreContextProvider value={this.state.genres}>
+            <GenreContextProvider value={this.state}>
               <div className="App">
-                <Main />
+                <Main guestSessionId={this.state.guestSessionId} />
+                {/* <button onClick={this.get}>КНОПКА</button> */}
               </div>
             </GenreContextProvider>
           </Layout>

@@ -28,6 +28,7 @@
   line-height: 22px;
   color: #000;
   margin-bottom: 7px;
+  max-width: 265px;
 }
 
 .card .aboutTheFilm .releaseDate {

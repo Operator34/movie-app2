@@ -5,15 +5,11 @@ import './main.css';
 import CardsLists from '../cards-lists';
 import SearchString from '../search-string';
 import HeaderApp from '../header-app/header-app';
-
+import RequestService from '../../services/request-service';
 const { Content } = Layout;
 
 class Main extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.getNameFilm = this.getNameFilm.bind(this);
-  // }
-
+  requestService = new RequestService();
   state = { searchInput: 'Return', currentPage: 1, isRatingPage: false };
 
   onIsRatingPage = (status) => {
@@ -29,8 +25,14 @@ class Main extends React.Component {
     return (
       <Content className="mainStyle">
         <HeaderApp onIsRatingPage={this.onIsRatingPage} isRatingPage={isRatingPage} />
-        <SearchString getNameFilm={this.getNameFilm} page={currentPage} />
-        <CardsLists searchInput={searchInput} currentPage={currentPage} getNameFilm={this.getNameFilm} />
+        {!isRatingPage ? <SearchString getNameFilm={this.getNameFilm} page={currentPage} /> : null}
+        <CardsLists
+          searchInput={searchInput}
+          currentPage={currentPage}
+          getNameFilm={this.getNameFilm}
+          isRatingPage={isRatingPage}
+          guestSessionId={this.props.guestSessionId}
+        />
       </Content>
     );
   }

@@ -1,7 +1,6 @@
 .headerStyle {
   background-color: #fff;
-  padding: 0 28px;
-  height: 6rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

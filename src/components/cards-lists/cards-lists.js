@@ -32,30 +32,100 @@ class CardsLists extends React.Component {
     this.updateCard();
   }
   componentDidUpdate(prevProps) {
-    if (this.props.searchInput !== prevProps.searchInput || this.props.currentPage !== prevProps.currentPage) {
+    if (
+      this.props.searchInput !== prevProps.searchInput ||
+      this.props.currentPage !== prevProps.currentPage ||
+      this.props.isRatingPage !== prevProps.isRatingPage
+    ) {
       this.updateCard();
     }
   }
   getGenreMovie = (genres, genreIds) => {
-    const newArr = genres
-      .filter((genre) => genreIds.includes(genre.id)) // Фильтрация жанров по их идентификаторам
-      .map((genre) => genre.name);
+    const newArr = genres.filter((genre) => genreIds.includes(genre.id)).map((genre) => genre.name);
     return newArr;
   };
+  // updateCard() {
+  //   const { searchInput, currentPage, isRatingPage } = this.props;
+  //   if (isRatingPage) {
+  //     console.log('isRating');
+  //     this.requestService.getRateMovie(this.props.guestSessionId).then((res) => {
+  //       console.log(res.results);
+  //       this.setState({
+  //         movies: res.results,
+  //         loading: false,
+  //         numbersOfMovies: res.total_results,
+  //       });
+  //     });
+  //   } else {
+  //     this.requestService
+  //       .getMovie(searchInput, currentPage)
+  //       .then((res) => {
+  //         console.log('result', res);
+  //         this.setState({
+  //           movies: res.results,
+  //           loading: false,
+  //           numbersOfMovies: res.total_results,
+  //         });
+  //       })
+  //       .catch(this.onError);
+  //     this.requestService.getRateMovie(this.props.guestSessionId).then((res) => {
+  //       console.log(res.results);
+  //       this.setState({
+  //         moviesRate: res.results,
+  //       });
+  //     });
+  //   }
+  // }
   updateCard() {
-    const { searchInput, currentPage } = this.props;
-
-    this.requestService
-      .getMovie(searchInput, currentPage)
-      .then((res) => {
-        console.log('result', res);
+    const { searchInput, currentPage, isRatingPage } = this.props;
+    if (isRatingPage) {
+      console.log('isRating');
+      this.requestService.getRateMovie(this.props.guestSessionId).then((res) => {
+        console.log(res.results);
         this.setState({
           movies: res.results,
           loading: false,
           numbersOfMovies: res.total_results,
         });
-      })
-      .catch(this.onError);
+      });
+    } else {
+      console.log('else 94');
+      Promise.all([
+        this.requestService.getMovie(searchInput, currentPage),
+        this.requestService.getRateMovie(this.props.guestSessionId),
+      ])
+        .then(([movieRes, rateRes]) => {
+          const movie = movieRes.results;
+          const movieRate = rateRes.results || [];
+          console.log(movie);
+          console.log(movieRate);
+          if (movieRate.length > 0) {
+            const updatedMovie = movie.map((movieItem) => {
+              const foundRating = movieRate.find((rateItem) => rateItem.id === movieItem.id);
+              if (foundRating) {
+                return { ...movieItem, rating: foundRating.rating };
+              }
+              return movieItem;
+            });
+            this.setState({
+              movies: updatedMovie,
+              loading: false,
+              numbersOfMovies: movieRes.total_results,
+            });
+          } else {
+            console.log('else');
+            this.setState({
+              movies: movieRes.results,
+              loading: false,
+              numbersOfMovies: movieRes.total_results,
+            });
+          }
+        })
+        .catch((error) => {
+          // Обработка ошибок
+          console.error('Error fetching data:', error);
+        });
+    }
   }
 
   render() {
@@ -66,6 +136,7 @@ class CardsLists extends React.Component {
       loading,
       error: { status, message },
     } = this.state;
+    console.log(movies);
 
     const errorMessage = status ? (
       <MessageAlert
@@ -80,8 +151,9 @@ class CardsLists extends React.Component {
     ) : null;
     return (
       <GenreConsumerProvider>
-        {(genres) => {
-          console.log(genres);
+        {(state) => {
+          const { genres, guestSessionId } = state;
+          // console.log(genres, guestSessionId);
           return (
             <div className="cardsLists">
               {errorMessage}
@@ -95,6 +167,7 @@ class CardsLists extends React.Component {
                     movie={movie}
                     searchInput={searchInput}
                     currentPage={currentPage}
+                    guestSessionId={guestSessionId}
                   />
                 ))}
               </Row>
