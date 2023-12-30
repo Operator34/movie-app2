@@ -37,6 +37,10 @@ class CardsLists extends React.Component {
       this.props.currentPage !== prevProps.currentPage ||
       this.props.isRatingPage !== prevProps.isRatingPage
     ) {
+      this.setState((state) => ({
+        loading: !state.loading,
+      }));
+
       this.updateCard();
     }
   }
