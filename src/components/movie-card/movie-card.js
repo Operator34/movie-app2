@@ -55,7 +55,7 @@ class MovieCard extends React.Component {
     }
     return (
       <>
-        <Col className="card" key={id} span={11}>
+        <Col className="card" key={id} xs={21} lg={12} xl={11}>
           <Image
             className="coverMovie"
             src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
