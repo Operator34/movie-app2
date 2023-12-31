@@ -45,13 +45,15 @@ class MovieCard extends React.Component {
     };
     let elementsGenre = null;
     if (genre.length > 0) {
-      elementsGenre = genre.map((el, index) => {
-        return (
-          <p key={index} className="nameGenre">
-            {el}
-          </p>
-        );
-      });
+      elementsGenre = genre
+        .filter((el, index) => index < 4)
+        .map((el, index) => {
+          return (
+            <p key={index} className="nameGenre">
+              {this.conversionStr(el, 11)}
+            </p>
+          );
+        });
     }
     return (
       <>

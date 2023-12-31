@@ -92,6 +92,8 @@
   }
 
   .card .coverMovie {
+    margin-left: 6px;
+    margin-top: 6px;
     width: 60px;
     height: 91px;
     top: 6px;
@@ -99,14 +101,26 @@
   }
   .card .aboutTheFilm {
     margin: 5px 10px;
-    min-width: 275px;
+    /* min-width: 275px;
+    max-width: 100%; */
+    width: 100%;
   }
   .card .aboutTheFilm .rate {
     position: absolute;
-    top: 210px;
-    right: 20px;
+    top: 215px;
+    right: 15px;
+  }
+  .card .aboutTheFilm .descriptionFilm {
+    position: absolute;
+    top: 105px;
+    width: 95%;
+    right: 15px;
+  }
+  .card .aboutTheFilm .genreFilm {
+    flex-wrap: nowrap;
   }
   .card .aboutTheFilm .wrapperTitle .titleName {
+    margin-bottom: 0;
     /* max-width: 235px; */
   }
   .card .aboutTheFilm .wrapperTitle .rating-value {
