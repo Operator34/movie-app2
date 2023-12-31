@@ -55,21 +55,27 @@ class MovieCard extends React.Component {
     }
     return (
       <>
-        <Col className="card" key={id} xs={21} lg={12} xl={11}>
+        <Col className="card" key={id} xs={22} lg={12} xl={11}>
           <Image
             className="coverMovie"
-            src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
+            src={`${basePosterUrl}${poster_path}`}
+            fallback={defaultPoster}
+            //src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = defaultPoster;
             }}
           />
           <div className="aboutTheFilm">
-            <h1 className="titleName">{title}</h1>
-            <time className="releaseDate">{release_date ? format(new Date(release_date), 'MMMM d, yyyy') : ''}</time>
-            <div className="rating-value" style={colorRate}>
-              {rate}
+            <div className="wrapperTitle">
+              <h1 className="titleName">{title}</h1>
+              <div className="rating-value" style={colorRate}>
+                {rate}
+              </div>
             </div>
+
+            <time className="releaseDate">{release_date ? format(new Date(release_date), 'MMMM d, yyyy') : ''}</time>
+
             <div className="genreFilm">{elementsGenre}</div>
             <div className="descriptionFilm">
               <p>{this.conversionStr(overview, 260)}</p>
