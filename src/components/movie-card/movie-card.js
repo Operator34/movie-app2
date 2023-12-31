@@ -57,9 +57,7 @@ class MovieCard extends React.Component {
         <Col className="card" key={id} xs={22} sm={22} lg={12} xl={11}>
           <Image
             className="coverMovie"
-            src={`${basePosterUrl}${poster_path}`}
-            fallback={defaultPoster}
-            //src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
+            src={poster_path ? `${basePosterUrl}${poster_path}` : defaultPoster}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = defaultPoster;

@@ -62,18 +62,21 @@ class RequestService extends React.Component {
     return body;
   }
   async getRateMovie(guestSessionId, page = 1) {
-    const res = await fetch(
-      `${this._apiBase}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}&page=${page}`,
-      {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          //Authorization: `Bearer ${API_KEY}`,
-        },
-      }
-    );
-    const body = await res.json();
-    return body;
+    if (guestSessionId) {
+      const res = await fetch(
+        `${this._apiBase}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}&page=${page}`,
+        {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            //Authorization: `Bearer ${API_KEY}`,
+          },
+        }
+      );
+      const body = await res.json();
+      return body;
+    }
+    return [];
   }
 }
 export default RequestService;
