@@ -206,7 +206,7 @@ const Spinner = ({ loading, err }) => (
       },
     }}
   >
-    <Spin size="large" spinning={err ? !err : loading} fullscreen={true} />
+    <Spin size="large" spinning={err ? !err : loading} fullscreen={false} />
   </ConfigProvider>
 );
 
