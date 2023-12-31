@@ -16,7 +16,6 @@ class Main extends React.Component {
     this.setState({ isRatingPage: status });
   };
   getNameFilm = (nameFilm, page) => {
-    console.log(nameFilm, page);
     this.setState({ searchInput: nameFilm, currentPage: page });
   };
 

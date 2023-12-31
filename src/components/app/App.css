@@ -1,18 +1,6 @@
-/* .App {
- 
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 .App {
   margin: 0 auto;
   max-width: 1110px;
-  width: 1110px;
 }
 
 @media screen and (max-width: 576px) {

@@ -16,11 +16,9 @@ class CardsLists extends React.Component {
   };
   onChangePagination = (page = 1, pageSize) => {
     const { searchInput, getNameFilm } = this.props;
-    console.log(page, pageSize);
     getNameFilm(searchInput, page);
   };
   onError = (err) => {
-    console.log(err.message);
     this.setState({
       error: {
         status: true,
@@ -83,9 +81,7 @@ class CardsLists extends React.Component {
   updateCard() {
     const { searchInput, currentPage, isRatingPage } = this.props;
     if (isRatingPage) {
-      console.log('isRating');
       this.requestService.getRateMovie(this.props.guestSessionId).then((res) => {
-        console.log(res.results);
         this.setState({
           movies: res.results,
           loading: false,
@@ -93,7 +89,6 @@ class CardsLists extends React.Component {
         });
       });
     } else {
-      console.log('else 94');
       Promise.all([
         this.requestService.getMovie(searchInput, currentPage),
         this.requestService.getRateMovie(this.props.guestSessionId),
@@ -101,8 +96,6 @@ class CardsLists extends React.Component {
         .then(([movieRes, rateRes]) => {
           const movie = movieRes.results;
           const movieRate = rateRes.results || [];
-          console.log(movie);
-          console.log(movieRate);
           if (movieRate.length > 0) {
             const updatedMovie = movie.map((movieItem) => {
               const foundRating = movieRate.find((rateItem) => rateItem.id === movieItem.id);
@@ -117,7 +110,6 @@ class CardsLists extends React.Component {
               numbersOfMovies: movieRes.total_results,
             });
           } else {
-            console.log('else');
             this.setState({
               movies: movieRes.results,
               loading: false,
@@ -140,7 +132,6 @@ class CardsLists extends React.Component {
       loading,
       error: { status, message },
     } = this.state;
-    console.log(movies);
 
     const errorMessage = status ? (
       <MessageAlert
@@ -149,7 +140,7 @@ class CardsLists extends React.Component {
         type={'error'}
       />
     ) : null;
-    console.log('numbersOfMovies', numbersOfMovies);
+
     const infoMessage = !numbersOfMovies ? (
       <MessageAlert errorMessage={'Ничего не найдено'} description={'Попробуйте ввести другой запрос'} type={'info'} />
     ) : null;
@@ -157,7 +148,6 @@ class CardsLists extends React.Component {
       <GenreConsumerProvider>
         {(state) => {
           const { genres, guestSessionId } = state;
-          // console.log(genres, guestSessionId);
           return (
             <div className="cardsLists">
               {errorMessage}

@@ -20,7 +20,7 @@
 .card .aboutTheFilm {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   text-align: start;
   margin: 10px 10px 10px 15px;
 }
@@ -86,8 +86,8 @@
 }
 @media screen and (max-width: 576px) {
   .card {
-    width: 388px;
-    /* max-width: 388px; */
+    /* width: 388px; */
+    max-width: 388px;
     height: 245px;
   }
 
@@ -101,8 +101,7 @@
   }
   .card .aboutTheFilm {
     margin: 5px 10px;
-    /* min-width: 275px;
-    max-width: 100%; */
+
     width: 100%;
   }
   .card .aboutTheFilm .rate {
@@ -113,7 +112,7 @@
   .card .aboutTheFilm .descriptionFilm {
     position: absolute;
     top: 105px;
-    width: 95%;
+    width: 90%;
     right: 15px;
   }
   .card .aboutTheFilm .genreFilm {
@@ -121,8 +120,12 @@
   }
   .card .aboutTheFilm .wrapperTitle .titleName {
     margin-bottom: 0;
-    /* max-width: 235px; */
   }
-  .card .aboutTheFilm .wrapperTitle .rating-value {
+}
+
+@media screen and (min-width: 577px) and (max-width: 900px) {
+  .card .aboutTheFilm {
+    margin: 5px 10px;
+    width: 100%;
   }
 }

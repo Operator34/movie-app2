@@ -11,7 +11,6 @@ const SearchString = ({ getNameFilm, page }) => {
   }, 1000);
 
   const onSearch = (value) => {
-    console.log(page);
     getNameFilm(value, page);
   };
 

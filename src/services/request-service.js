@@ -46,7 +46,6 @@ class RequestService extends React.Component {
     return body;
   }
   async addRateGuestSession(movie_id, guestSessionId, rate) {
-    console.log(movie_id, guestSessionId, rate);
     const res = await fetch(
       `${this._apiBase}/movie/${movie_id}/rating?guest_session_id=${guestSessionId}&api_key=${API_KEY}`,
       {
@@ -74,7 +73,6 @@ class RequestService extends React.Component {
       }
     );
     const body = await res.json();
-    console.log(body);
     return body;
   }
 }

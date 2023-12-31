@@ -14,16 +14,8 @@ class App extends React.Component {
   requestService = new RequestService();
   state = { genres: [], guestSessionId: '' };
 
-  // get = (e) => {
-  //   console.log('Кнопка');
-  //   e.preventDefault();
-  //   this.requestService.getRateMovie(this.state.guestSessionId, 1);
-  // };
-
   componentDidMount() {
-    console.log('componentDidMount APP');
     this.requestService.getAllGenre().then((res) => this.setState({ genres: res.genres }));
-
     this.requestService.createGuestSession().then((res) => {
       this.setState({ guestSessionId: res.guest_session_id });
     });

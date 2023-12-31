@@ -17,11 +17,8 @@ class MovieCard extends React.Component {
 
   onChangeRate = (value) => {
     const { guestSessionId, movie } = this.props;
-    console.log(guestSessionId);
     this.setState({ rate: value });
-    this.requestService.addRateGuestSession(movie.id, guestSessionId, value).then((res) => {
-      console.log(res);
-    });
+    this.requestService.addRateGuestSession(movie.id, guestSessionId, value).then((res) => {});
   };
 
   conversionStr(str, maxLength) {
@@ -57,7 +54,7 @@ class MovieCard extends React.Component {
     }
     return (
       <>
-        <Col className="card" key={id} xs={22} lg={12} xl={11}>
+        <Col className="card" key={id} xs={22} sm={22} lg={12} xl={11}>
           <Image
             className="coverMovie"
             src={`${basePosterUrl}${poster_path}`}
